@@ -72,7 +72,9 @@
     <h2>Verified agent boundaries</h2>
     <div class="work">
       <h3>Seal</h3>
-      <p>A verified mediation layer for agent tool use over MCP. A default-deny gate whose non-bypass is proved in Lean, so an agent can read and reason but every protected effect is forced through an exact, recorded, checkable approval boundary. It emits replayable decision receipts, not vibes. It enforces authorization at the effect boundary; it does not claim to read intent.</p>
+      <p>The agent authorization gate whose decision rule is machine-checked, whose effect commitment is tested for sufficiency, and whose deployed decisions can be independently re-derived against pinned kernel bytes.</p>
+      <p>A default-deny gate over agent tool use: the agent can read and reason, but every protected effect is forced through an exact, recorded, checkable approval boundary. Non-bypass is proved in <a href="https://github.com/velvetmonkey/mcp-seal-dev">Lean 4</a>. The approval field set is <em>tested</em> to carry enough to identify the exact effect it authorizes, not assumed to: the pre-v2 field set failed that check on a concrete collision, and that is why <code>args_hash</code> exists. Every decision emits a tamper-evident receipt anyone can re-derive in a browser or CLI, with no toolchain to install.</p>
+      <p>Seal protects <em>effects</em>; the current production adapter mediates MCP <code>tools/call</code>. It enforces authorization at the effect boundary; it does not claim to read intent.</p>
       <div class="links">
         <a href="https://github.com/velvetmonkey/seal">seal ↗</a>
         <a href="https://github.com/velvetmonkey/seal-host">seal-host ↗</a>
