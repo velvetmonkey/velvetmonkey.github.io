@@ -62,8 +62,8 @@
 
     <h3>Seal v1.1, concretely</h3>
     <p>What it costs you: Node 20 or later, Git, one command and one read-only store directory
-    installed under <code>~/.local</code>, and one restart of Claude Code when you protect a
-    tool. Linux x86-64 only; on any other platform the installer refuses before changing any
+    installed under <code>~/.local</code>, the <code>claude</code> command for protect, and one
+    restart of Claude Code when you protect a tool. Linux x86-64 only; on any other platform the installer refuses before changing any
     file. The artifact&rsquo;s digest and byte length are pinned in the repository&rsquo;s
     <a href="https://github.com/velvetmonkey/seal/blob/main/SHA256SUMS"><code>SHA256SUMS</code></a>,
     and the installer refuses bytes that do not reproduce that pin. The commands are
@@ -78,8 +78,10 @@
     generates for that run; the protected path writes its receipts unsigned.</p>
 
     <p>Three details worth the space. It never edits your project&rsquo;s <code>.mcp.json</code>:
-    it installs a Claude Code local override instead, and the test suite asserts the project file
-    is byte-identical by hash before protect, after protect, and after unprotect. Altered bytes
+    it installs a Claude Code local override instead — through <code>claude mcp add</code>, where
+    Claude Code, not Seal, writes <code>~/.claude.json</code> and a backup — and the test suite
+    asserts the project file is byte-identical by hash before protect, after protect, and after
+    unprotect. Altered bytes
     refuse: flip one byte of the installed tree and the launcher prints
     <code>REFUSE artifact_digest_mismatch</code> before it executes anything — ordinary failure
     modes are staged for real in the test suite, and whatever must refuse does so with a named
@@ -168,8 +170,10 @@
     authorizes, not assumed to: the pre-v2 field set failed that check on a concrete collision,
     and that is why <code>args_hash</code> exists. Independent re-derivation against pinned
     kernel bytes holds for the family&rsquo;s kernel receipts, which replay in seal-check
-    against wasm whose bytes are pinned and re-hashed; it is not yet true of the v1.1 install
-    above, whose protected path writes unsigned receipts the shipped checker refuses. The
+    against wasm whose bytes are pinned and re-hashed: for those receipts, every decision emits
+    a tamper-evident receipt anyone can re-derive in a browser or CLI, with no toolchain to
+    install. Neither claim is true of the v1.1 install above: its protected path writes
+    unsigned receipts, and the shipped checker refuses them. The
     family&rsquo;s Rust and wasm artifacts (seal-host and the assurance kit) are connected to
     the proofs by byte-exact conformance tests over a corpus, not by a theorem about every
     compiled instruction; the v1.1 Node artifact is not covered by that corpus, and its
