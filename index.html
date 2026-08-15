@@ -57,80 +57,12 @@
 
   <section id="seal">
     <h2>Seal</h2>
-    <p>Seal is a permission gate for AI agents. It sits between an agent and the tools the agent
-    can call: protected actions are blocked by default, and a blocked action runs only after a
-    person approves that exact action, once. Every decision is recorded as a receipt.</p>
-
-    <p>Seal protects <em>effects</em>: a default-deny gate over agent tool use, where the agent
-    can read and reason but every protected effect is forced through an exact, recorded approval
-    boundary. The current production adapter mediates MCP <code>tools/call</code>. It enforces
-    authorization at the effect boundary; it does not claim to read intent.</p>
-
-    <h3>Seal v1.1, concretely</h3>
-    <p>What it costs you: Node 20 or later, Git, one command and one read-only store directory
-    installed under <code>~/.local</code>, the <code>claude</code> command for protect, and one
-    restart of Claude Code when you protect a tool. Linux x86-64 only; on any other platform the installer refuses before changing any
-    file. The artifact&rsquo;s digest and byte length are pinned in the repository&rsquo;s
-    <a href="https://github.com/velvetmonkey/seal/blob/main/SHA256SUMS"><code>SHA256SUMS</code></a>,
-    and the installer refuses bytes that do not reproduce that pin. The commands are
-    <code>demo</code>, <code>protect</code>, <code>unprotect</code>, <code>status</code>,
-    <code>doctor</code>, <code>verify</code>.</p>
-
-    <p><code>seal protect</code> puts the gate in front of one tool of one MCP server. A guarded
-    call is blocked until a live, one-use approval matches that exact effect. The approval names
-    the exact tool and the exact arguments, states that object-key order and 1 versus 1.0 do not
-    change the match, and is good for one use and two minutes. Then it runs once, and Seal
-    writes a receipt of the decision. Today only the demo signs its receipts, with a key it
-    generates for that run; the protected path writes its receipts unsigned.</p>
-
-    <p>Three details worth the space. It never edits your project&rsquo;s <code>.mcp.json</code>:
-    it installs a Claude Code local override instead — through <code>claude mcp add</code>, where
-    Claude Code, not Seal, writes <code>~/.claude.json</code> and a backup — and the test suite
-    asserts the project file is byte-identical by hash before protect, after protect, and after
-    unprotect. Altered bytes
-    refuse: flip one byte of the installed tree and the launcher prints
-    <code>REFUSE artifact_digest_mismatch</code> before it executes anything — ordinary failure
-    modes are staged for real in the test suite, and whatever must refuse does so with a named
-    refusal, not a generic error; a drifted server entry refuses forwarding rather than forward
-    a drifted call. And the demo&rsquo;s last act writes a file outside
-    the gate and reports that no Seal decision covered it, because Seal is a gate, not a
-    sandbox.</p>
-
-    <p>A signed receipt carries a commitment to each field of the decision and an Ed25519
-    signature, and a standalone checker re-derives it from the receipt&rsquo;s own bytes using
-    only Node.js built-ins. The shipped checker refuses an unsigned receipt
-    (<code>REFUSE unsealed</code>), so a protected-path receipt is today a plain local record,
-    not checkable evidence. Whether a signature belongs to your operator is established by a
-    verifying key you obtain from a source you already trust — never from the receipt
-    itself.</p>
-
-    <p>To see it work, follow the repository&rsquo;s install: clone, run
-    <code>node scripts/build-dist.cjs</code>, and install the built artifact against the
-    published pin. Then <code>seal demo</code> runs a blocked tool call, prompts for a one-time
-    approval, executes the approved call once, refuses the identical replay, and prints a
-    checker command for the receipts it wrote.</p>
-
-    <h3>What is not done</h3>
-    <p>The checker ships inside the same installed artifact as the product, so it is not an
-    independent external check.
-    <code>seal verify</code> needs a network fetch on first use or a warm cache. There is no
-    durable operator signing key. Seal checks authorization, not intent — if a person approves a
-    harmful request, it runs — and even a signed receipt is tamper-evident, not tamper-proof.
-    No one outside the project has run any of this yet.</p>
-
-    <h3>Repositories</h3>
-    <ul class="repos">
-      <li><a href="https://github.com/velvetmonkey/seal">seal</a>
-        <span class="desc">— the product a developer installs; the demo and CLI entry point.</span></li>
-      <li><a href="https://github.com/velvetmonkey/seal-assurance-kit">seal-assurance-kit</a>
-        <span class="desc">— the pinned runtime the product fetches by commit and hash; runs with Node alone.</span></li>
-      <li><a href="https://github.com/velvetmonkey/seal-check">seal-check</a>
-        <span class="desc">— a browser checker for the family&rsquo;s kernel receipts; a different program from the v1.1 receipt checker, which ships inside the product artifact.</span></li>
-      <li><a href="https://github.com/velvetmonkey/mcp-seal-aria">mcp-seal-aria</a>
-        <span class="desc">— the frozen source of the decision rule, archived at a fixed commit.</span></li>
-      <li><a href="https://github.com/velvetmonkey/seal-host">seal-host</a>
-        <span class="desc">— the build and evidence host: the mediating process, signed releases, checksums, and provenance.</span></li>
-    </ul>
+    <p>Seal is a permission gate for AI agents. Its current production adapter mediates MCP
+    <code>tools/call</code>: protected actions are blocked by default, and a blocked action runs
+    only after a person approves that exact action, once. Every decision is recorded as a receipt.
+    It enforces authorization at the effect boundary; it does not claim to read intent.</p>
+    <p class="note"><a href="https://github.com/velvetmonkey/seal">Repository</a> ·
+    <a href="https://github.com/velvetmonkey/seal/blob/main/docs/CLAIMS-MATRIX.md">Claims matrix</a></p>
   </section>
 
   <section id="other-work">
