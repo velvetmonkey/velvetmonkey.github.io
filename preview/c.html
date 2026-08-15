@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ben Cassie — formal methods and systems</title>
+<meta name="description" content="Ben Cassie, independent researcher in formal methods and systems. Machine-checked developments in Lean 4, tied to running code by conformance tests.">
+<style>
+  :root{--night:#151719;--ink:#f1f1ef;--soft:#aaaead;--line:#393d3e;--code:#24282a}
+  *{box-sizing:border-box}
+  html{background:var(--night)}
+  body{margin:0;background:var(--night);color:var(--ink);font-family:Arial,Helvetica,sans-serif;font-size:17px;line-height:1.62}
+  .wrap{width:min(100%,1060px);margin:0 auto;padding:7rem 3rem 5rem}
+  a{color:inherit;text-decoration-color:#767b7a;text-decoration-thickness:1px;text-underline-offset:.2em}
+  a:hover{text-decoration-color:var(--ink);text-decoration-thickness:2px}
+  header{padding-bottom:6rem}
+  h1{max-width:10ch;margin:0;font-size:clamp(4rem,10vw,7.6rem);font-weight:800;line-height:.82;letter-spacing:-.08em}
+  .role{margin:2.2rem 0 0;color:var(--soft);font-size:.82rem;font-weight:700;letter-spacing:.08em}
+  .intro{max-width:790px;margin:3.5rem 0 0;font-size:clamp(1.55rem,3.2vw,2.35rem);font-weight:600;line-height:1.22;letter-spacing:-.035em}
+  section{padding:4.5rem 0;border-top:1px solid var(--line)}
+  h2{margin:0 0 3.3rem;font-size:clamp(2.7rem,6vw,5rem);font-weight:800;line-height:.9;letter-spacing:-.06em}
+  h3{margin:3.4rem 0 .75rem;font-size:1.15rem;font-weight:800;letter-spacing:-.02em}
+  p{max-width:750px;margin:0 0 1.25rem;color:#d0d2d1}
+  code{padding:.12em .3em;background:var(--code);color:var(--ink);font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.82em}
+  ul.repos{max-width:900px;margin:1rem 0 0;padding:0;list-style:none}
+  ul.repos li{display:grid;grid-template-columns:13rem 1fr;gap:1.25rem;padding:1rem 0;border-top:1px solid var(--line)}
+  ul.repos li:last-child{border-bottom:1px solid var(--line)}
+  ul.repos li>a{font-weight:700}
+  ul.repos .desc,.note{color:var(--soft)}
+  .note{font-size:.88rem}
+  #technical-note .note{max-width:850px;font-size:1rem}
+  footer{display:flex;gap:2rem;padding-top:2rem;border-top:1px solid var(--line);font-size:.82rem;font-weight:700;letter-spacing:.08em}
+  @media (max-width:620px){
+    .wrap{padding:4rem 1.25rem 3rem}
+    header{padding-bottom:4.5rem}
+    h1{font-size:4rem}
+    .role{font-size:.72rem}
+    .intro{margin-top:2.5rem;font-size:1.58rem}
+    section{padding:3.25rem 0}
+    h2{margin-bottom:2.4rem;font-size:3rem}
+    ul.repos li{display:block}
+    ul.repos .desc{display:block;margin-top:.3rem}
+    footer{flex-wrap:wrap;gap:1rem 1.5rem}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>Ben Cassie</h1>
+    <p class="role">Independent researcher · formal methods and systems</p>
+    <p class="intro">I build small, machine-checked developments in Lean&nbsp;4 and the engineering
+    that connects them to running code: conformance tests, signed evidence, and plainly stated
+    limits.</p>
+  </header>
+
+  <section id="seal">
+    <h2>Seal</h2>
+    <p>Seal is a permission gate for AI agents. It sits between an agent and the tools the agent
+    can call: protected actions are blocked by default, and a blocked action runs only after a
+    person approves that exact action, once. Every decision is recorded as a receipt.</p>
+
+    <p>Seal protects <em>effects</em>: a default-deny gate over agent tool use, where the agent
+    can read and reason but every protected effect is forced through an exact, recorded approval
+    boundary. The current production adapter mediates MCP <code>tools/call</code>. It enforces
+    authorization at the effect boundary; it does not claim to read intent.</p>
+
+    <h3>Seal v1.1, concretely</h3>
+    <p>What it costs you: Node 20 or later, Git, one command and one read-only store directory
+    installed under <code>~/.local</code>, the <code>claude</code> command for protect, and one
+    restart of Claude Code when you protect a tool. Linux x86-64 only; on any other platform the installer refuses before changing any
+    file. The artifact&rsquo;s digest and byte length are pinned in the repository&rsquo;s
+    <a href="https://github.com/velvetmonkey/seal/blob/main/SHA256SUMS"><code>SHA256SUMS</code></a>,
+    and the installer refuses bytes that do not reproduce that pin. The commands are
+    <code>demo</code>, <code>protect</code>, <code>unprotect</code>, <code>status</code>,
+    <code>doctor</code>, <code>verify</code>.</p>
+
+    <p><code>seal protect</code> puts the gate in front of one tool of one MCP server. A guarded
+    call is blocked until a live, one-use approval matches that exact effect. The approval names
+    the exact tool and the exact arguments, states that object-key order and 1 versus 1.0 do not
+    change the match, and is good for one use and two minutes. Then it runs once, and Seal
+    writes a receipt of the decision. Today only the demo signs its receipts, with a key it
+    generates for that run; the protected path writes its receipts unsigned.</p>
+
+    <p>Three details worth the space. It never edits your project&rsquo;s <code>.mcp.json</code>:
+    it installs a Claude Code local override instead — through <code>claude mcp add</code>, where
+    Claude Code, not Seal, writes <code>~/.claude.json</code> and a backup — and the test suite
+    asserts the project file is byte-identical by hash before protect, after protect, and after
+    unprotect. Altered bytes
+    refuse: flip one byte of the installed tree and the launcher prints
+    <code>REFUSE artifact_digest_mismatch</code> before it executes anything — ordinary failure
+    modes are staged for real in the test suite, and whatever must refuse does so with a named
+    refusal, not a generic error; a drifted server entry refuses forwarding rather than forward
+    a drifted call. And the demo&rsquo;s last act writes a file outside
+    the gate and reports that no Seal decision covered it, because Seal is a gate, not a
+    sandbox.</p>
+
+    <p>A signed receipt carries a commitment to each field of the decision and an Ed25519
+    signature, and a standalone checker re-derives it from the receipt&rsquo;s own bytes using
+    only Node.js built-ins. The shipped checker refuses an unsigned receipt
+    (<code>REFUSE unsealed</code>), so a protected-path receipt is today a plain local record,
+    not checkable evidence. Whether a signature belongs to your operator is established by a
+    verifying key you obtain from a source you already trust — never from the receipt
+    itself.</p>
+
+    <p>To see it work, follow the repository&rsquo;s install: clone, run
+    <code>node scripts/build-dist.cjs</code>, and install the built artifact against the
+    published pin. Then <code>seal demo</code> runs a blocked tool call, prompts for a one-time
+    approval, executes the approved call once, refuses the identical replay, and prints a
+    checker command for the receipts it wrote.</p>
+
+    <h3>What is not done</h3>
+    <p>The checker ships inside the same installed artifact as the product, so it is not an
+    independent external check.
+    <code>seal verify</code> needs a network fetch on first use or a warm cache. There is no
+    durable operator signing key. Seal checks authorization, not intent — if a person approves a
+    harmful request, it runs — and even a signed receipt is tamper-evident, not tamper-proof.
+    No one outside the project has run any of this yet.</p>
+
+    <h3>Repositories</h3>
+    <ul class="repos">
+      <li><a href="https://github.com/velvetmonkey/seal">seal</a>
+        <span class="desc">— the product a developer installs; the demo and CLI entry point.</span></li>
+      <li><a href="https://github.com/velvetmonkey/seal-assurance-kit">seal-assurance-kit</a>
+        <span class="desc">— the pinned runtime the product fetches by commit and hash; runs with Node alone.</span></li>
+      <li><a href="https://github.com/velvetmonkey/seal-check">seal-check</a>
+        <span class="desc">— a browser checker for the family&rsquo;s kernel receipts; a different program from the v1.1 receipt checker, which ships inside the product artifact.</span></li>
+      <li><a href="https://github.com/velvetmonkey/mcp-seal-aria">mcp-seal-aria</a>
+        <span class="desc">— the frozen source of the decision rule, archived at a fixed commit.</span></li>
+      <li><a href="https://github.com/velvetmonkey/seal-host">seal-host</a>
+        <span class="desc">— the build and evidence host: the mediating process, signed releases, checksums, and provenance.</span></li>
+    </ul>
+  </section>
+
+  <section id="other-work">
+    <h2>Other work</h2>
+
+    <h3>attention-lean</h3>
+    <p>A Lean&nbsp;4 / Mathlib formalisation of hard-attention expressivity over Boolean cubes.
+    The main theorem shows that for every odd n&nbsp;≥&nbsp;5, strict majority needs at least
+    (n+3)/2 attention heads — one more than its certificate bound — and the five-bit case is
+    exact: k(maj₅)&nbsp;=&nbsp;4. Structural proofs are kernel-checked with no
+    <code>sorry</code> and no <code>native_decide</code>; enumerated cases are isolated and
+    pinned separately.</p>
+    <p class="note"><a href="https://github.com/velvetmonkey/attention-lean">Repository</a> ·
+    <a href="https://zenodo.org/records/21188381">Paper on Zenodo</a></p>
+
+    <h3>SafeMesh</h3>
+    <p>An embeddable library for state that must converge after network partitions. The verified
+    claim is narrow and stated in-repo: five CRDTs (G-Set, G-Counter, PN-Counter, OR-Set,
+    RGA/Text) carry Lean convergence proofs, tied to the Rust implementation by differential
+    tests against a Lean-generated oracle. The event log, wire encoding, and language bindings
+    are tested engineering, not proofs.</p>
+    <p class="note"><a href="https://github.com/velvetmonkey/safemesh">safemesh</a> ·
+    <a href="https://github.com/velvetmonkey/crdt-lean">crdt-lean</a> ·
+    <a href="https://github.com/velvetmonkey/temporal-logic-lean">temporal-logic-lean</a></p>
+
+    <h3>The Lean corpus</h3>
+    <p>A family of small Lean&nbsp;4 developments, each pinning one claim — gradient descent,
+    Kuramoto synchronisation, CRDT convergence, temporal-logic enforcement, PAC bounds — with
+    axiom footprints and non-claims listed per repository, indexed in one place.</p>
+    <p class="note"><a href="https://velvetmonkey.github.io/lean/">Corpus index</a> ·
+    <a href="https://github.com/velvetmonkey?tab=repositories&amp;q=lean">All Lean repositories</a></p>
+  </section>
+
+  <section id="technical-note">
+    <h2>Technical note</h2>
+    <p class="note">For the reader who wants the proof story behind Seal, the family target is
+    one sentence: the agent authorization gate whose decision rule is machine-checked, whose
+    effect commitment is tested for sufficiency, and whose deployed decisions can be
+    independently re-derived against pinned kernel bytes. Each clause is a family claim with
+    today&rsquo;s scope. The decision rule is a Lean&nbsp;4 development whose theorems cover the
+    mediation kernel — non-bypass and a verifiable record — not the whole deployed system. The
+    effect commitment is <em>tested</em> to carry enough to identify the exact effect it
+    authorizes, not assumed to: the pre-v2 field set failed that check on a concrete collision,
+    and that is why <code>args_hash</code> exists. Independent re-derivation against pinned
+    kernel bytes holds for the family&rsquo;s kernel receipts, which replay in seal-check
+    against wasm whose bytes are pinned and re-hashed: for those receipts, every decision emits
+    a tamper-evident receipt anyone can re-derive in a browser or CLI, with no toolchain to
+    install. Neither claim is true of the v1.1 install above: its protected path writes
+    unsigned receipts, and the shipped checker refuses them. The
+    family&rsquo;s Rust and wasm artifacts (seal-host and the assurance kit) are connected to
+    the proofs by byte-exact conformance tests over a corpus, not by a theorem about every
+    compiled instruction; the v1.1 Node artifact is not covered by that corpus, and its
+    guarantees are the tests in its own repository. What is proven, tested, assumed, and not
+    claimed is kept in one table: the
+    <a href="https://github.com/velvetmonkey/seal/blob/main/docs/CLAIMS-MATRIX.md">claims
+    matrix</a>.</p>
+  </section>
+
+  <footer>
+    <a href="https://github.com/velvetmonkey">GitHub</a>
+    <a href="https://orcid.org/0009-0004-1899-7627">ORCID</a>
+    <a href="https://zenodo.org/search?q=metadata.creators.person_or_org.identifiers.identifier:%220009-0004-1899-7627%22">Zenodo</a>
+  </footer>
+
+</div>
+</body>
+</html>
