@@ -64,8 +64,9 @@
     <p><code>seal protect</code> puts the gate in front of one tool of one MCP server. A guarded
     call is blocked until a live, one-use approval matches that exact effect. The approval names
     the exact tool and the exact arguments, states that object-key order and 1 versus 1.0 do not
-    change the match, and is good for one use and two minutes. The approved call then runs once
-    and writes a signed receipt.</p>
+    change the match, and is good for one use and two minutes. Then it runs once, and Seal
+    writes a receipt of the decision. Today only the demo signs its receipts, with a key it
+    generates for that run; the protected path writes its receipts unsigned.</p>
 
     <p>Three details worth the space. It never edits your project&rsquo;s <code>.mcp.json</code>:
     it installs a Claude Code local override instead, and the test suite asserts the project file
@@ -77,10 +78,13 @@
     the gate and reports that no Seal decision covered it, because Seal is a gate, not a
     sandbox.</p>
 
-    <p>A receipt carries a commitment to each field of the decision and an Ed25519 signature. A
-    standalone checker re-derives it from the receipt&rsquo;s own bytes using only Node.js
-    built-ins. Whether the signature belongs to your operator is established by a verifying key
-    you obtain from a source you already trust — never from the receipt itself.</p>
+    <p>A signed receipt carries a commitment to each field of the decision and an Ed25519
+    signature, and a standalone checker re-derives it from the receipt&rsquo;s own bytes using
+    only Node.js built-ins. The shipped checker refuses an unsigned receipt
+    (<code>REFUSE unsealed</code>), so a protected-path receipt is today a plain local record,
+    not checkable evidence. Whether a signature belongs to your operator is established by a
+    verifying key you obtain from a source you already trust — never from the receipt
+    itself.</p>
 
     <p>To see it work, with Node.js installed:
     <code>npx github:velvetmonkey/seal demo</code>. It runs a blocked tool call, prompts for a
@@ -91,8 +95,8 @@
     independent external check the design calls for; that is being fixed.
     <code>seal verify</code> needs a network fetch on first use or a warm cache. There is no
     durable operator signing key. Seal checks authorization, not intent — if a person approves a
-    harmful request, it runs — and receipts are tamper-evident, not tamper-proof. No one outside
-    the project has run any of this yet.</p>
+    harmful request, it runs — and even a signed receipt is tamper-evident, not tamper-proof.
+    No one outside the project has run any of this yet.</p>
 
     <h3>Repositories</h3>
     <ul class="repos">
