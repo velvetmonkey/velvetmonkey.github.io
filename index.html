@@ -6,36 +6,42 @@
 <title>Ben Cassie — formal methods and systems</title>
 <meta name="description" content="Ben Cassie, independent researcher in formal methods and systems. Machine-checked developments in Lean 4, tied to running code by conformance tests.">
 <style>
-  :root{
-    --ink:#1c1c1c; --muted:#52525b; --line:#e4e4e7; --accent:#134e8c;
-    --code-bg:#f4f4f5;
-  }
+  :root{--night:#151719;--ink:#f1f1ef;--soft:#aaaead;--line:#393d3e;--code:#24282a}
   *{box-sizing:border-box}
-  body{
-    margin:0;background:#ffffff;color:var(--ink);
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
-    font-size:17px;line-height:1.6;
+  html{background:var(--night)}
+  body{margin:0;background:var(--night);color:var(--ink);font-family:Arial,Helvetica,sans-serif;font-size:17px;line-height:1.62}
+  .wrap{width:min(100%,1060px);margin:0 auto;padding:7rem 3rem 5rem}
+  a{color:inherit;text-decoration-color:#767b7a;text-decoration-thickness:1px;text-underline-offset:.2em}
+  a:hover{text-decoration-color:var(--ink);text-decoration-thickness:2px}
+  header{padding-bottom:6rem}
+  h1{max-width:10ch;margin:0;font-size:clamp(4rem,10vw,7.6rem);font-weight:800;line-height:.82;letter-spacing:-.08em}
+  .role{margin:2.2rem 0 0;color:var(--soft);font-size:.82rem;font-weight:700;letter-spacing:.08em}
+  .intro{max-width:790px;margin:3.5rem 0 0;font-size:clamp(1.55rem,3.2vw,2.35rem);font-weight:600;line-height:1.22;letter-spacing:-.035em}
+  section{padding:4.5rem 0;border-top:1px solid var(--line)}
+  h2{margin:0 0 3.3rem;font-size:clamp(2.7rem,6vw,5rem);font-weight:800;line-height:.9;letter-spacing:-.06em}
+  h3{margin:3.4rem 0 .75rem;font-size:1.15rem;font-weight:800;letter-spacing:-.02em}
+  p{max-width:750px;margin:0 0 1.25rem;color:#d0d2d1}
+  code{padding:.12em .3em;background:var(--code);color:var(--ink);font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.82em}
+  ul.repos{max-width:900px;margin:1rem 0 0;padding:0;list-style:none}
+  ul.repos li{display:grid;grid-template-columns:13rem 1fr;gap:1.25rem;padding:1rem 0;border-top:1px solid var(--line)}
+  ul.repos li:last-child{border-bottom:1px solid var(--line)}
+  ul.repos li>a{font-weight:700}
+  ul.repos .desc,.note{color:var(--soft)}
+  .note{font-size:.88rem}
+  #technical-note .note{max-width:850px;font-size:1rem}
+  footer{display:flex;gap:2rem;padding-top:2rem;border-top:1px solid var(--line);font-size:.82rem;font-weight:700;letter-spacing:.08em}
+  @media (max-width:620px){
+    .wrap{padding:4rem 1.25rem 3rem}
+    header{padding-bottom:4.5rem}
+    h1{font-size:4rem}
+    .role{font-size:.72rem}
+    .intro{margin-top:2.5rem;font-size:1.58rem}
+    section{padding:3.25rem 0}
+    h2{margin-bottom:2.4rem;font-size:3rem}
+    ul.repos li{display:block}
+    ul.repos .desc{display:block;margin-top:.3rem}
+    footer{flex-wrap:wrap;gap:1rem 1.5rem}
   }
-  .wrap{max-width:660px;margin:0 auto;padding:56px 22px 72px}
-  a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
-  h1{font-size:28px;font-weight:650;letter-spacing:-.01em;margin:0}
-  .role{color:var(--muted);margin:6px 0 0}
-  .intro{margin:20px 0 0}
-  h2{font-size:19px;font-weight:650;margin:52px 0 4px;padding-top:24px;border-top:1px solid var(--line)}
-  h3{font-size:17px;font-weight:650;margin:26px 0 4px}
-  p{margin:12px 0}
-  .muted{color:var(--muted)}
-  code{
-    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
-    font-size:.88em;background:var(--code-bg);padding:2px 5px;border-radius:3px;
-  }
-  ul.repos{list-style:none;margin:14px 0;padding:0}
-  ul.repos li{margin:8px 0;padding-left:0}
-  ul.repos .desc{color:var(--muted)}
-  .note{font-size:15px;color:var(--muted)}
-  .note code{font-size:.9em}
-  footer{margin-top:56px;padding-top:22px;border-top:1px solid var(--line);font-size:15px;color:var(--muted)}
-  footer a{margin-right:18px}
 </style>
 </head>
 <body>
