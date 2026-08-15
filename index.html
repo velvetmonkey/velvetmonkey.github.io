@@ -1,133 +1,136 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Ben Cassie — verified systems for messy AI</title>
-<meta name="description" content="Ben Cassie, independent researcher in formal methods and systems. Small, machine-checked abstractions for AI reliability, tied to real runtimes." />
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ben Cassie — formal methods and systems</title>
+<meta name="description" content="Ben Cassie, independent researcher in formal methods and systems. Machine-checked developments in Lean 4, tied to running code by conformance tests.">
 <style>
   :root{
-    --bg:#0d0d10; --panel:#141419; --line:#26262e;
-    --ink:#ececef; --muted:#9b9ba6; --dim:#6f6f7a;
-    --gold:#d8b46a; --gold-dim:#a98d4f;
-    --serif:"Newsreader",Georgia,serif;
-    --sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    --ink:#1c1c1c; --muted:#52525b; --line:#e4e4e7; --accent:#134e8c;
+    --code-bg:#f4f4f5;
   }
   *{box-sizing:border-box}
-  html{scroll-behavior:smooth}
   body{
-    margin:0;background:var(--bg);color:var(--ink);
-    font-family:var(--sans);font-size:17px;line-height:1.65;
-    -webkit-font-smoothing:antialiased;
+    margin:0;background:#ffffff;color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    font-size:17px;line-height:1.6;
   }
-  .wrap{max-width:720px;margin:0 auto;padding:80px 26px 100px}
-  a{color:var(--gold);text-decoration:none;border-bottom:1px solid transparent;transition:border-color .15s}
-  a:hover{border-bottom-color:var(--gold-dim)}
-  header{margin-bottom:56px}
-  .mark{font-family:var(--serif);font-size:46px;font-weight:600;letter-spacing:-.01em;line-height:1.05;margin:0}
-  .who{color:var(--muted);font-size:16px;margin:10px 0 0}
-  .tag{font-family:var(--serif);font-style:italic;font-size:22px;line-height:1.5;color:var(--ink);margin:26px 0 0;max-width:38ch}
-  .lede{color:var(--muted);margin:22px 0 0}
-  .lede strong{color:var(--ink);font-weight:600}
-  nav{margin:30px 0 0;display:flex;flex-wrap:wrap;gap:8px 20px;font-size:15px}
-  nav a{color:var(--muted);border:none}
-  nav a:hover{color:var(--gold)}
-  h2{font-family:var(--serif);font-size:14px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
-     color:var(--gold);margin:64px 0 22px;padding-bottom:0}
-  .work{border-top:1px solid var(--line);padding:22px 0}
-  .work:last-child{border-bottom:1px solid var(--line)}
-  .work h3{font-family:var(--serif);font-size:22px;font-weight:600;margin:0 0 6px}
-  .work h3 .kj{color:var(--dim);font-weight:400;font-size:15px;font-family:var(--sans)}
-  .work p{margin:0 0 10px;color:var(--muted)}
-  .links{font-size:14.5px;display:flex;flex-wrap:wrap;gap:6px 16px}
-  .links a{color:var(--gold-dim)}
-  .links a:hover{color:var(--gold)}
-  footer{margin-top:70px;padding-top:26px;border-top:1px solid var(--line);color:var(--dim);font-size:15px}
-  footer .qed{font-family:var(--serif);font-style:italic;color:var(--muted);font-size:18px;margin:0 0 18px}
-  footer .row{display:flex;flex-wrap:wrap;gap:6px 18px}
-  footer a{color:var(--muted);border:none}
-  footer a:hover{color:var(--gold)}
+  .wrap{max-width:660px;margin:0 auto;padding:56px 22px 72px}
+  a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
+  h1{font-size:28px;font-weight:650;letter-spacing:-.01em;margin:0}
+  .role{color:var(--muted);margin:6px 0 0}
+  .intro{margin:20px 0 0}
+  h2{font-size:19px;font-weight:650;margin:52px 0 4px;padding-top:24px;border-top:1px solid var(--line)}
+  h3{font-size:17px;font-weight:650;margin:26px 0 4px}
+  p{margin:12px 0}
+  .muted{color:var(--muted)}
+  code{
+    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    font-size:.88em;background:var(--code-bg);padding:2px 5px;border-radius:3px;
+  }
+  ul.repos{list-style:none;margin:14px 0;padding:0}
+  ul.repos li{margin:8px 0;padding-left:0}
+  ul.repos .desc{color:var(--muted)}
+  .note{font-size:15px;color:var(--muted)}
+  .note code{font-size:.9em}
+  footer{margin-top:56px;padding-top:22px;border-top:1px solid var(--line);font-size:15px;color:var(--muted)}
+  footer a{margin-right:18px}
 </style>
 </head>
 <body>
 <div class="wrap">
 
   <header>
-    <h1 class="mark">Ben Cassie</h1>
-    <p class="who">Independent researcher · formal methods and systems</p>
-    <p class="tag">Small, machine-checked abstractions for AI reliability, tied to real runtimes.</p>
-    <p class="lede">Most of my work is a <strong>rulebook proved in <a href="https://velvetmonkey.github.io/lean/">Lean 4</a></strong> and a thin engineering layer that makes the proof matter in production: conformance tests, receipts, demos, and honest non-claims. Formal methods with deployment instincts. The recurring question is the same one every time, <strong>do these observations carry enough to justify this claim?</strong></p>
-    <nav>
-      <a href="#agents">Verified agent boundaries</a>
-      <a href="#expressivity">Expressivity</a>
-      <a href="#distributed">Distributed systems</a>
-      <a href="#corpus">The Lean corpus</a>
-    </nav>
+    <h1>Ben Cassie</h1>
+    <p class="role">Independent researcher · formal methods and systems</p>
+    <p class="intro">I build small, machine-checked developments in Lean&nbsp;4 and the engineering
+    that connects them to running code: conformance tests, signed evidence, and plainly stated
+    limits.</p>
   </header>
 
-  <section id="agents">
-    <h2>Verified agent boundaries</h2>
-    <div class="work">
-      <h3>Seal</h3>
-      <p>The agent authorization gate whose decision rule is machine-checked, whose effect commitment is tested for sufficiency, and whose deployed decisions can be independently re-derived against pinned kernel bytes.</p>
-      <p>A default-deny gate over agent tool use: the agent can read and reason, but every protected effect is forced through an exact, recorded, checkable approval boundary. Non-bypass is proved in <a href="https://github.com/velvetmonkey/mcp-seal-dev">Lean 4</a>. The approval field set is <em>tested</em> to carry enough to identify the exact effect it authorizes, not assumed to: the pre-v2 field set failed that check on a concrete collision, and that is why <code>args_hash</code> exists. Every decision emits a tamper-evident receipt anyone can re-derive in a browser or CLI, with no toolchain to install.</p>
-      <p>Seal protects <em>effects</em>; the current production adapter mediates MCP <code>tools/call</code>. It enforces authorization at the effect boundary; it does not claim to read intent.</p>
-      <div class="links">
-        <a href="https://github.com/velvetmonkey/seal">seal ↗</a>
-        <a href="https://github.com/velvetmonkey/seal-host">seal-host ↗</a>
-        <a href="https://github.com/velvetmonkey/mcp-seal-dev">the Lean kernel ↗</a>
-      </div>
-    </div>
+  <section id="seal">
+    <h2>Seal</h2>
+    <p>Seal is a permission gate for AI agents. It sits between an agent and the tools the agent
+    can call: protected actions are blocked by default, and a blocked action runs only after a
+    person approves that exact action, once. Every decision is recorded as a receipt.</p>
+
+    <p>A receipt carries a commitment to each field of the decision and an Ed25519 signature over
+    the configuration that produced it. A standalone checker can re-derive the decision from the
+    receipt&rsquo;s own bytes using only Node.js built-ins. Whether the signature belongs to your
+    operator is established by a verifying key you obtain from a source you already trust —
+    never from the receipt itself.</p>
+
+    <p>To see it work, with Node.js installed:
+    <code>npx github:velvetmonkey/seal demo</code>. It runs a blocked tool call, prompts for a
+    one-time approval, executes the approved call, and writes the receipt to disk.</p>
+
+    <p>Limits, stated plainly: Seal checks authorization, not intent — if a person approves a
+    harmful request, it runs. Receipts are tamper-evident, not tamper-proof. Prebuilt binaries of
+    the mediating host are released for Linux only (x86-64 and aarch64); other platforms are
+    untested.</p>
+
+    <h3>Repositories</h3>
+    <ul class="repos">
+      <li><a href="https://github.com/velvetmonkey/seal">seal</a>
+        <span class="desc">— the product a developer installs; the demo and CLI entry point.</span></li>
+      <li><a href="https://github.com/velvetmonkey/seal-assurance-kit">seal-assurance-kit</a>
+        <span class="desc">— the pinned runtime the product fetches by commit and hash; runs with Node alone.</span></li>
+      <li><a href="https://github.com/velvetmonkey/seal-check">seal-check</a>
+        <span class="desc">— the external receipt checker, runnable in a browser or from the terminal.</span></li>
+      <li><a href="https://github.com/velvetmonkey/mcp-seal-aria">mcp-seal-aria</a>
+        <span class="desc">— the frozen source of the decision rule, archived at a fixed commit.</span></li>
+      <li><a href="https://github.com/velvetmonkey/seal-host">seal-host</a>
+        <span class="desc">— the build and evidence host: the mediating process, signed releases, checksums, and provenance.</span></li>
+    </ul>
   </section>
 
-  <section id="expressivity">
-    <h2>Machine-checked expressivity</h2>
-    <div class="work">
-      <h3>attention-lean <span class="kj">· hard-attention head complexity</span></h3>
-      <p>A Lean 4 / Mathlib formalisation of what a single-layer hard-attention model can compute over Boolean cubes. Single-head outputs are exactly decision lists; head-count lower bounds become witness-number lower bounds. Headline: <strong>k(maj₅) = 4 exactly</strong>, majority-of-five provably needs four attention heads, one above its certificate complexity of three, the first proven gap of its kind. Kernel-clean on {propext, Classical.choice, Quot.sound}, no <code>sorry</code>, no <code>native_decide</code> in the structural proofs.</p>
-      <div class="links">
-        <a href="https://github.com/velvetmonkey/attention-lean">Repository ↗</a>
-        <a href="https://zenodo.org/records/21188381">Paper / Zenodo ↗</a>
-      </div>
-    </div>
+  <section id="other-work">
+    <h2>Other work</h2>
+
+    <h3>attention-lean</h3>
+    <p>A Lean&nbsp;4 / Mathlib formalisation of hard-attention expressivity over Boolean cubes.
+    The main theorem shows that for every odd n&nbsp;≥&nbsp;5, strict majority needs at least
+    (n+3)/2 attention heads — one more than its certificate bound — and the five-bit case is
+    exact: k(maj₅)&nbsp;=&nbsp;4. Structural proofs are kernel-checked with no
+    <code>sorry</code> and no <code>native_decide</code>; enumerated cases are isolated and
+    pinned separately.</p>
+    <p class="note"><a href="https://github.com/velvetmonkey/attention-lean">Repository</a> ·
+    <a href="https://zenodo.org/records/21188381">Paper on Zenodo</a></p>
+
+    <h3>SafeMesh</h3>
+    <p>An embeddable library for state that must converge after network partitions. The verified
+    claim is narrow and stated in-repo: five CRDTs (G-Set, G-Counter, PN-Counter, OR-Set,
+    RGA/Text) carry Lean convergence proofs, tied to the Rust implementation by differential
+    tests against a Lean-generated oracle. The event log, wire encoding, and language bindings
+    are tested engineering, not proofs.</p>
+    <p class="note"><a href="https://github.com/velvetmonkey/safemesh">safemesh</a> ·
+    <a href="https://github.com/velvetmonkey/crdt-lean">crdt-lean</a> ·
+    <a href="https://github.com/velvetmonkey/temporal-logic-lean">temporal-logic-lean</a></p>
+
+    <h3>The Lean corpus</h3>
+    <p>A family of small Lean&nbsp;4 developments, each pinning one claim — gradient descent,
+    Kuramoto synchronisation, CRDT convergence, temporal-logic enforcement, PAC bounds — with
+    axiom footprints and non-claims listed per repository, indexed in one place.</p>
+    <p class="note"><a href="https://velvetmonkey.github.io/lean/">Corpus index</a> ·
+    <a href="https://github.com/velvetmonkey?tab=repositories&amp;q=lean">All Lean repositories</a></p>
   </section>
 
-  <section id="distributed">
-    <h2>Verified distributed systems</h2>
-    <div class="work">
-      <h3>SafeMesh <span class="kj">· convergence under partition</span></h3>
-      <p>A verified, embeddable, eventually-consistent distributed event log. Machine-checked strong eventual consistency and convergence under drop, duplication, and reorder, so anything built on top gets convergence for free. Aimed at load-bearing-integrity work over dirty networks: cold-chain, custody, offline-first sync.</p>
-      <div class="links">
-        <a href="https://github.com/velvetmonkey/safemesh">safemesh ↗</a>
-        <a href="https://github.com/velvetmonkey/crdt-lean">crdt-lean ↗</a>
-        <a href="https://github.com/velvetmonkey/temporal-logic-lean">temporal-logic-lean ↗</a>
-      </div>
-    </div>
-  </section>
-
-  <section id="corpus">
-    <h2>The Lean corpus</h2>
-    <div class="work">
-      <h3>One auditable claim, not one grand library</h3>
-      <p>A family of small Lean 4 developments, each narrowing a load-bearing claim in optimisation, dynamics, consensus, or learning to a theorem the kernel will actually check, with its axiom footprint left visible and its non-claims named. Gradient descent, Kuramoto synchronisation, CRDT convergence, LTL enforcement, PAC bounds, and more, indexed in one place.</p>
-      <div class="links">
-        <a href="https://velvetmonkey.github.io/lean/">Corpus index ↗</a>
-        <a href="https://github.com/velvetmonkey/kuramoto-lean">kuramoto-lean ↗</a>
-        <a href="https://github.com/velvetmonkey?tab=repositories&q=lean">all Lean repos ↗</a>
-      </div>
-    </div>
+  <section id="technical-note">
+    <h2>Technical note</h2>
+    <p class="note">For the reader who wants the proof story behind Seal: the decision rule is a
+    Lean&nbsp;4 development, and the theorems cover the mediation kernel — non-bypass and a
+    verifiable record — not the whole deployed system. The shipped binaries are connected to the
+    proofs by byte-exact conformance tests over a corpus, not by a theorem about every compiled
+    instruction. What is proven, tested, assumed, and not claimed is kept in one table:
+    the <a href="https://github.com/velvetmonkey/seal/blob/main/docs/CLAIMS-MATRIX.md">claims
+    matrix</a>.</p>
   </section>
 
   <footer>
-    <p class="qed">AI proposes, Lean disposes, and it stops on a QED.</p>
-    <div class="row">
-      <a href="https://github.com/velvetmonkey">GitHub</a>
-      <a href="https://orcid.org/0009-0004-1899-7627">ORCID</a>
-      <a href="https://zenodo.org/search?q=metadata.creators.person_or_org.identifiers.identifier:%220009-0004-1899-7627%22">Zenodo</a>
-    </div>
+    <a href="https://github.com/velvetmonkey">GitHub</a>
+    <a href="https://orcid.org/0009-0004-1899-7627">ORCID</a>
+    <a href="https://zenodo.org/search?q=metadata.creators.person_or_org.identifiers.identifier:%220009-0004-1899-7627%22">Zenodo</a>
   </footer>
 
 </div>
