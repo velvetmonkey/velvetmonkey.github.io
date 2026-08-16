@@ -60,15 +60,10 @@
     boundary. The current production adapter mediates MCP <code>tools/call</code>. It enforces
     authorization at the effect boundary; it does not claim to read intent.</p>
 
-    <h3>Seal v1.1, concretely</h3>
-    <p>What it costs you: Node 20 or later, Git, one command and one read-only store directory
-    installed under <code>~/.local</code>, the <code>claude</code> command for protect, and one
-    restart of Claude Code when you protect a tool. Linux x86-64 only; on any other platform the installer refuses before changing any
-    file. The artifact&rsquo;s digest and byte length are pinned in the repository&rsquo;s
-    <a href="https://github.com/velvetmonkey/seal/blob/main/SHA256SUMS"><code>SHA256SUMS</code></a>,
-    and the installer refuses bytes that do not reproduce that pin. The commands are
-    <code>demo</code>, <code>protect</code>, <code>unprotect</code>, <code>status</code>,
-    <code>doctor</code>, <code>verify</code>.</p>
+    <h3>Seal v0.2.0-rc.1, concretely</h3>
+    <p>Seal v0.2.0-rc.1 supports Linux x86-64 only. macOS, Windows, Linux ARM, and other
+    platforms are not supported in this release. Download
+    <a href="https://github.com/velvetmonkey/seal/releases/download/v0.2.0-rc.1/seal-v0.2.0-rc.1-linux-x64"><code>seal-v0.2.0-rc.1-linux-x64</code></a>.</p>
 
     <p><code>seal protect</code> puts the gate in front of one tool of one MCP server. A guarded
     call is blocked until a live, one-use approval matches that exact effect. The approval names
@@ -98,11 +93,8 @@
     verifying key you obtain from a source you already trust — never from the receipt
     itself.</p>
 
-    <p>To see it work, follow the repository&rsquo;s install: clone, run
-    <code>node scripts/build-dist.cjs</code>, and install the built artifact against the
-    published pin. Then <code>seal demo</code> runs a blocked tool call, prompts for a one-time
-    approval, executes the approved call once, refuses the identical replay, and prints a
-    checker command for the receipts it wrote.</p>
+    <p>Install the downloaded artifact with<br>
+    <code>./seal-v0.2.0-rc.1-linux-x64 --sha256 eef923946e1f9c24aa48b9428971f8b943a78a3e626afbb6d8f2f0904cb87846 --bytes 6126255 --prefix ~/.local</code>.</p>
 
     <h3>What is not done</h3>
     <p>The checker ships inside the same installed artifact as the product, so it is not an
@@ -119,7 +111,7 @@
       <li><a href="https://github.com/velvetmonkey/seal-assurance-kit">seal-assurance-kit</a>
         <span class="desc">— the pinned runtime the product fetches by commit and hash; runs with Node alone.</span></li>
       <li><a href="https://github.com/velvetmonkey/seal-check">seal-check</a>
-        <span class="desc">— a browser checker for the family&rsquo;s kernel receipts; a different program from the v1.1 receipt checker, which ships inside the product artifact.</span></li>
+        <span class="desc">— a browser checker for the family&rsquo;s kernel receipts; a different program from the product&rsquo;s receipt checker.</span></li>
       <li><a href="https://github.com/velvetmonkey/mcp-seal-aria">mcp-seal-aria</a>
         <span class="desc">— the frozen source of the decision rule, archived at a fixed commit.</span></li>
       <li><a href="https://github.com/velvetmonkey/seal-host">seal-host</a>
@@ -172,12 +164,10 @@
     kernel bytes holds for the family&rsquo;s kernel receipts, which replay in seal-check
     against wasm whose bytes are pinned and re-hashed: for those receipts, every decision emits
     a tamper-evident receipt anyone can re-derive in a browser or CLI, with no toolchain to
-    install. Neither claim is true of the v1.1 install above: its protected path writes
-    unsigned receipts, and the shipped checker refuses them. The
+    install. Those claims remain scoped to the family&rsquo;s kernel receipts. The
     family&rsquo;s Rust and wasm artifacts (seal-host and the assurance kit) are connected to
     the proofs by byte-exact conformance tests over a corpus, not by a theorem about every
-    compiled instruction; the v1.1 Node artifact is not covered by that corpus, and its
-    guarantees are the tests in its own repository. What is proven, tested, assumed, and not
+    compiled instruction. What is proven, tested, assumed, and not
     claimed is kept in one table: the
     <a href="https://github.com/velvetmonkey/seal/blob/main/docs/CLAIMS-MATRIX.md">claims
     matrix</a>.</p>
