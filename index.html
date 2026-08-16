@@ -76,7 +76,7 @@
     <code>sorry</code> and no <code>native_decide</code>; enumerated cases are isolated and
     pinned separately.</p>
     <p class="note"><a href="https://github.com/velvetmonkey/attention-lean">Repository</a> ·
-    <a href="https://zenodo.org/records/21188381">Paper on Zenodo</a></p>
+    <a href="https://zenodo.org/records/21298767">Paper on Zenodo</a></p>
 
     <h3>SafeMesh</h3>
     <p>An embeddable library for state that must converge after network partitions. The verified
@@ -110,11 +110,11 @@
     kernel bytes holds for the family&rsquo;s kernel receipts, which replay in seal-check
     against wasm whose bytes are pinned and re-hashed: for those receipts, every decision emits
     a tamper-evident receipt anyone can re-derive in a browser or CLI, with no toolchain to
-    install. Neither claim is true of the v1.1 install above: its protected path writes
+    install. Neither claim is true of the v1.1.0-rc.1 install above: its protected path writes
     unsigned receipts, and the shipped checker refuses them. The
     family&rsquo;s Rust and wasm artifacts (seal-host and the assurance kit) are connected to
     the proofs by byte-exact conformance tests over a corpus, not by a theorem about every
-    compiled instruction; the v1.1 Node artifact is not covered by that corpus, and its
+    compiled instruction; the v1.1.0-rc.1 Node artifact is not covered by that corpus, and its
     guarantees are the tests in its own repository. What is proven, tested, assumed, and not
     claimed is kept in one table: the
     <a href="https://github.com/velvetmonkey/seal/blob/main/docs/CLAIMS-MATRIX.md">claims
