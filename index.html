@@ -61,8 +61,8 @@
     <code>tools/call</code>: protected actions are blocked by default, and a blocked action runs
     only after a person approves that exact action, once. When the gate can write its receipt directory, every decision is recorded as a receipt.
     It enforces authorization at the effect boundary; it does not claim to read intent.</p>
-    <p>Seal v0.2.0-rc.1 supports Linux x86-64 only. macOS, Windows, Linux ARM, and other
-    platforms are not supported in this release. Download
+    <p>Seal supports Linux x86-64 only. macOS, Windows, Linux ARM, and other
+    platforms are not supported by this download. Download
     <a href="https://github.com/velvetmonkey/seal/releases/download/v0.2.0-rc.1/seal-v0.2.0-rc.1-linux-x64"><code>seal-v0.2.0-rc.1-linux-x64</code></a>,
     then install it with<br>
     <code>./seal-v0.2.0-rc.1-linux-x64 --sha256 eef923946e1f9c24aa48b9428971f8b943a78a3e626afbb6d8f2f0904cb87846 --bytes 6126255 --prefix ~/.local</code>.</p>
@@ -74,7 +74,7 @@
     <h2>Other work</h2>
 
     <h3>attention-lean</h3>
-    <p>A Lean&nbsp;4 / Mathlib formalisation of hard-attention expressivity over Boolean cubes.
+    <p>A Lean&nbsp;4 / Mathlib formalisation of hard and soft attention expressivity over Boolean cubes.
     The main theorem shows that for every odd n&nbsp;≥&nbsp;5, strict majority needs at least
     (n+3)/2 attention heads — one more than its certificate bound — and the five-bit case is
     exact: k(maj₅)&nbsp;=&nbsp;4. Structural proofs are kernel-checked with no
