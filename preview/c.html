@@ -66,9 +66,9 @@
     boundary. The current production adapter mediates MCP <code>tools/call</code>. It enforces
     authorization at the effect boundary; it does not claim to read intent.</p>
 
-    <h3>Seal v0.2.0-rc.1, concretely</h3>
-    <p>Seal v0.2.0-rc.1 supports Linux x86-64 only. macOS, Windows, Linux ARM, and other
-    platforms are not supported in this release. Download
+    <h3>Seal, concretely</h3>
+    <p>Seal supports Linux x86-64 only. macOS, Windows, Linux ARM, and other
+    platforms are not supported by this download. Download
     <a href="https://github.com/velvetmonkey/seal/releases/download/v0.2.0-rc.1/seal-v0.2.0-rc.1-linux-x64"><code>seal-v0.2.0-rc.1-linux-x64</code></a>.</p>
 
     <p><code>seal protect</code> puts the gate in front of one tool of one MCP server. A guarded
@@ -151,7 +151,12 @@
     <h3>The Lean corpus</h3>
     <p>A family of small Lean&nbsp;4 developments, each pinning one claim — gradient descent,
     Kuramoto synchronisation, CRDT convergence, temporal-logic enforcement, PAC bounds — with
-    axiom footprints and non-claims listed per repository, indexed in one place.</p>
+    axiom footprints and non-claims listed per repository, indexed in one place. The
+    <a href="https://github.com/velvetmonkey/kuramoto-lean">kuramoto-lean</a> count is 39:
+    on its <code>master</code> branch, count only lines beginning <code>theorem </code> in tracked
+    <code>*.lean</code> files, excluding paths in test/tests and example/examples directories;
+    lemmas and private declarations do not count. From a fresh clone, run
+    <code>git ls-files '*.lean' | awk '!/(^|\/)[Tt]ests?\// &amp;&amp; !/(^|\/)[Ee]xamples?\//' | xargs -r grep -h -E '^theorem ' | wc -l</code>.</p>
     <p class="note"><a href="https://velvetmonkey.github.io/lean/">Corpus index</a> ·
     <a href="https://github.com/velvetmonkey?tab=repositories&amp;q=lean">All Lean repositories</a></p>
   </section>
