@@ -67,16 +67,16 @@
     authorization at the effect boundary; it does not claim to read intent.</p>
 
     <h3>Seal, concretely</h3>
-    <p>Seal supports Linux x86-64 only. macOS, Windows, Linux ARM, and other
-    platforms are not supported by this download. Download
-    <a href="https://github.com/velvetmonkey/seal/releases/download/v0.2.0-rc.1/seal-v0.2.0-rc.1-linux-x64"><code>seal-v0.2.0-rc.1-linux-x64</code></a>.</p>
+    <p>Seal supports Linux x86-64 and macOS x64 and arm64. Windows, Linux ARM, and other
+    platforms are not supported. Download
+    <a href="https://github.com/velvetmonkey/seal/releases/download/v0.3.0/seal-v0.3.0-linux-x64"><code>seal-v0.3.0-linux-x64</code></a>.</p>
 
     <p><code>seal protect</code> puts the gate in front of one tool of one MCP server. A guarded
     call is blocked until a live, one-use approval matches that exact effect. The approval names
     the exact tool and the exact arguments, states that object-key order and 1 versus 1.0 do not
     change the match, and is good for one use and two minutes. Then it runs once, and Seal
-    writes a receipt of the decision. Today only the demo signs its receipts, with a key it
-    generates for that run; the protected path writes its receipts unsigned.</p>
+    writes a signed receipt of the decision. The protected path generates and stores a local
+    Ed25519 signing key, then signs each receipt with it.</p>
 
     <p>Three details worth the space. It never edits your project&rsquo;s <code>.mcp.json</code>:
     it installs a Claude Code local override instead — through <code>claude mcp add</code>, where
@@ -93,14 +93,13 @@
 
     <p>A signed receipt carries a commitment to each field of the decision and an Ed25519
     signature, and a standalone checker re-derives it from the receipt&rsquo;s own bytes using
-    only Node.js built-ins. The shipped checker refuses an unsigned receipt
-    (<code>REFUSE unsealed</code>), so a protected-path receipt is today a plain local record,
-    not checkable evidence. Whether a signature belongs to your operator is established by a
+    only Node.js built-ins. The shipped checker validates signed protected-path receipts.
+    Whether a signature belongs to your operator is established by a
     verifying key you obtain from a source you already trust — never from the receipt
     itself.</p>
 
     <p>Install the downloaded artifact with<br>
-    <code>./seal-v0.2.0-rc.1-linux-x64 --sha256 eef923946e1f9c24aa48b9428971f8b943a78a3e626afbb6d8f2f0904cb87846 --bytes 6126255 --prefix ~/.local</code>.</p>
+    <code>./seal-v0.3.0-linux-x64 --sha256 93d1dfa722f05127025f2c087949f9356c6292f737e37e9a8b94948e10242f8b --bytes 6247615 --prefix ~/.local</code>.</p>
 
     <h3>What is not done</h3>
     <p>The checker ships inside the same installed artifact as the product, so it is not an
